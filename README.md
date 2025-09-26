@@ -1,3 +1,10 @@
+# Portafolio – rosalesdev928
+React + Vite + Tailwind.  
+Scripts: `npm run dev` | `npm run build` | `npm run preview`.
+
+Demo: (Vercel aquí cuando lo despleguemos)
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
