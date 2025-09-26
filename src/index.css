@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fondo verde/negro */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply text-emerald-50;
+  background:
+    radial-gradient(1000px 700px at 80% -10%, #0f261e 0%, transparent 60%),
+    #0a0f0e;
+}
+
