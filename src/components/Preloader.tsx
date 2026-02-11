@@ -38,19 +38,20 @@ export default function Preloader({
   const circumference = 2 * Math.PI * radius;
 
   return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      animate={{ opacity: hide ? 0 : 1 }}
-      transition={{ duration: 0.8, ease: "easeInOut" }}
-      style={{
-        position: "fixed",
-        inset: 0,
-        background: "#fff", // fondo blanco
-        display: "grid",
-        placeItems: "center",
-        zIndex: 9999,
-      }}
-    >
+   <motion.div
+  initial={{ opacity: 1 }}
+  animate={{ opacity: hide ? 0 : 1 }}
+  transition={{ duration: 0.8, ease: "easeInOut" }}
+  style={{
+    position: "fixed",
+    inset: 0,
+    background: "#fff",
+    display: "grid",
+    placeItems: "center",
+    zIndex: 9999,
+    pointerEvents: hide ? "none" : "auto", // ✅ ESTA ES LA CLAVE
+  }}
+>
       <div style={{ position: "relative", width: size, height: size }}>
         {/* Texto en el centro */}
         <div
