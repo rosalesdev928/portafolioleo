@@ -29,7 +29,7 @@ const projects: Project[] = [
     tags: ["Node", "Express", "MySQL"],
     link: "https://github.com/rosalesdev928/sistema-farmacia",
     demo: "https://www.youtube.com/embed/-G3Ar0n8VOk",
-    image: "/projects/farmacia.png", // 👈 pon tu screenshot aquí
+    image: "/fotos/DEMOSISTEMAFARMACIA.png", // 👈 pon tu screenshot aquí
   },
   {
     title: "Gestión de Clientes",
