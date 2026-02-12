@@ -178,37 +178,31 @@ export default function App() {
           {projects.map((p) => (
             <Card key={p.title} className="overflow-hidden">
               <CardContent className="p-0">
-                {/* ✅ Imagen con hover (se agranda y “sale”) */}
-                <motion.div
-                  className="h-44 relative overflow-hidden bg-gradient-to-br from-emerald-950 to-emerald-900"
-                  whileHover={{ scale: 1.04 }}
-                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
-                  style={{ zIndex: 0 }}
-                >
-                  {p.image ? (
-                    <img
-                      src={p.image}
-                      alt={p.title}
-                      className="w-full h-full object-cover opacity-95 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="w-full h-full grid place-items-center text-emerald-200 font-semibold tracking-wide">
-                      {p.title}
-                    </div>
-                  )}
+               {/* ✅ Imagen con hover (se agranda y “sale”) */}
+<motion.div
+  className="h-44 relative overflow-hidden bg-gradient-to-br from-emerald-950 to-emerald-900"
+  whileHover={{ scale: 1.04 }}
+  transition={{ type: "spring", stiffness: 260, damping: 18 }}
+>
+  {p.image ? (
+    <img
+      src={p.image}
+      alt={p.title}
+      className="w-full h-full object-cover opacity-95"
+    />
+  ) : (
+    <div className="w-full h-full grid place-items-center text-emerald-200 font-semibold tracking-wide">
+      {p.title}
+    </div>
+  )}
+</motion.div>
 
-                  {/* overlay + título */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-                  <div className="absolute inset-0 grid place-items-center">
-                    <div className="text-emerald-100 font-semibold tracking-wide drop-shadow">
-                      {p.title}
-                    </div>
-                  </div>
-                </motion.div>
+               <div className="p-5">
+  <h3 className="text-emerald-100 font-semibold text-lg mb-2">
+    {p.title}
+  </h3>
 
-                <div className="p-5">
-                  <p className="text-emerald-100/90">{p.desc}</p>
-
+  <p className="text-emerald-100/90">{p.desc}</p>
                   <div className="flex gap-2 mt-3 flex-wrap">
                     {p.tags.map((t) => (
                       <span key={t} className="text-xs px-2 py-1 rounded-full border border-emerald-900 bg-emerald-950/40">
