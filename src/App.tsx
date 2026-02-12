@@ -1,17 +1,7 @@
 import { useMemo, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  ArrowRight,
-  Code,
-  Server,
-  ShieldCheck,
-  Link,
-} from "lucide-react";
+import { ArrowRight, Code, Server, ShieldCheck, Link } from "lucide-react";
 import { Card, CardContent } from "./components/ui/card";
-import { Button } from "./components/ui/button";
 import Hero from "./components/Hero";
 import Preloader from "./components/Preloader";
 
@@ -23,25 +13,13 @@ const nav = [
   { href: "#contacto", label: "Contacto" },
 ];
 
-const skills = [
-  "Node.js",
-  "Express",
-  "MySQL",
-  "HTML/CSS",
-  "Git/GitHub",
-  "Postman",
-  "JWT",
-  "MVC",
-  "React/Vite",
-  "TypeScript",
-];
-
 type Project = {
   title: string;
   desc: string;
   tags: string[];
-  link?: string;
-  demo?: string; // 👈 video embed
+  link?: string;     // repo
+  demo?: string;     // youtube embed
+  image?: string;    // ruta imagen (screenshot)
 };
 
 const projects: Project[] = [
@@ -51,43 +29,34 @@ const projects: Project[] = [
     tags: ["Node", "Express", "MySQL"],
     link: "https://github.com/rosalesdev928/sistema-farmacia",
     demo: "https://www.youtube.com/embed/-G3Ar0n8VOk",
+    image: "/projects/farmacia.png", // 👈 pon tu screenshot aquí
   },
   {
     title: "Gestión de Clientes",
     desc: "CRUD con filtros, paginación y exportaciones.",
     tags: ["Node", "EJS", "Bootstrap"],
+    link: "https://github.com/rosalesdev928/gestion-clientes", // 👈 cambia si tienes repo
+    demo: "https://www.youtube.com/embed/PEGAR_ID_AQUI_2",     // 👈 luego cambias solo el ID
+    image: "/projects/clientes.png",                           // 👈 screenshot
   },
   {
     title: "API de Productos",
     desc: "API JSON con auth JWT y roles.",
     tags: ["Express", "JWT", "Pruebas"],
+    link: "https://github.com/rosalesdev928/api-productos", // 👈 cambia si tienes repo
+    demo: "https://www.youtube.com/embed/PEGAR_ID_AQUI_3",  // 👈 luego cambias solo el ID
+    image: "/projects/api.png",                              // 👈 screenshot
   },
 ];
 
 const services = [
-  {
-    icon: Code,
-    title: "Desarrollo web",
-    desc: "Aplicaciones a medida (frontend + backend) con despliegue.",
-  },
-  {
-    icon: Server,
-    title: "Integraciones API",
-    desc: "Diseño, consumo y documentación de APIs REST.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Automatización",
-    desc: "Jobs y scripts que ahorran tiempo en procesos.",
-  },
+  { icon: Code, title: "Desarrollo web", desc: "Aplicaciones a medida (frontend + backend) con despliegue." },
+  { icon: Server, title: "Integraciones API", desc: "Diseño, consumo y documentación de APIs REST." },
+  { icon: ShieldCheck, title: "Automatización", desc: "Jobs y scripts que ahorran tiempo en procesos." },
 ];
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
-  return (
-    <h2 className="text-[1.7rem] font-semibold tracking-tight mb-6 text-emerald-200">
-      {children}
-    </h2>
-  );
+  return <h2 className="text-[1.7rem] font-semibold tracking-tight mb-6 text-emerald-200">{children}</h2>;
 }
 function Shell({ children, id }: { children: React.ReactNode; id?: string }) {
   return (
@@ -99,17 +68,17 @@ function Shell({ children, id }: { children: React.ReactNode; id?: string }) {
 
 export default function App() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 400], [0, 40]);
+  useTransform(scrollY, [0, 400], [0, 40]); // (ok si no lo usas, no afecta)
   const year = useMemo(() => new Date().getFullYear(), []);
 
-  // ⬅️ control del preloader
+  // Preloader
   const [ready, setReady] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setReady(true), 1200);
     return () => clearTimeout(t);
   }, []);
 
-  // ✅ Modal Demo (Video)
+  // Modal Demo (Video)
   const [openDemo, setOpenDemo] = useState(false);
   const [demoUrl, setDemoUrl] = useState<string | null>(null);
   const [demoTitle, setDemoTitle] = useState<string>("Demo");
@@ -127,17 +96,22 @@ export default function App() {
     setTimeout(() => setDemoUrl(null), 200);
   };
 
+  // Cerrar con ESC
+  useEffect(() => {
+    if (!openDemo) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeVideo();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openDemo]);
+
   return (
     <div className="min-h-screen text-emerald-50 bg-[radial-gradient(1000px_700px_at_80%_-10%,#0f261e_0%,transparent_60%),#0a0f0e]">
       {/* Preloader */}
       <div style={{ ["--preloader-bg" as any]: "#ffffff" }}>
-        <Preloader
-          done={ready}
-          minDuration={2400}
-          color="#22c55e"
-          size={92}
-          text="LR"
-        />
+        <Preloader done={ready} minDuration={2400} color="#22c55e" size={92} text="LR" />
       </div>
 
       {/* Header */}
@@ -175,16 +149,11 @@ export default function App() {
           <Card>
             <CardContent>
               <p>
-                Soy desarrollador junior full-stack con base en Lima. Me gusta
-                construir aplicaciones claras, rápidas y seguras. Disfruto
-                trabajar con <strong>JavaScript/Node</strong> y bases de datos{" "}
-                <strong>MySQL</strong>. También tengo experiencia llevando
-                proyectos end-to-end: desde el modelado de datos, APIs y
-                autenticación hasta el despliegue.
+                Soy desarrollador junior full-stack con base en Lima. Me gusta construir aplicaciones claras, rápidas y seguras.
+                Disfruto trabajar con <strong>JavaScript/Node</strong> y bases de datos <strong>MySQL</strong>. También tengo experiencia
+                llevando proyectos end-to-end: desde el modelado de datos, APIs y autenticación hasta el despliegue.
               </p>
-              <p className="text-emerald-200/80 mt-3">
-                Actualmente busco oportunidades donde aportar valor real.
-              </p>
+              <p className="text-emerald-200/80 mt-3">Actualmente busco oportunidades donde aportar valor real.</p>
             </CardContent>
           </Card>
 
@@ -204,29 +173,51 @@ export default function App() {
       {/* Proyectos */}
       <Shell id="proyectos">
         <SectionTitle>Proyectos recientes</SectionTitle>
+
         <div className="grid md:grid-cols-3 gap-5">
           {projects.map((p) => (
             <Card key={p.title} className="overflow-hidden">
               <CardContent className="p-0">
-                <div className="h-44 grid place-items-center bg-gradient-to-br from-emerald-950 to-emerald-900 text-emerald-200 font-semibold tracking-wide">
-                  {p.title}
-                </div>
+                {/* ✅ Imagen con hover (se agranda y “sale”) */}
+                <motion.div
+                  className="h-44 relative overflow-hidden bg-gradient-to-br from-emerald-950 to-emerald-900"
+                  whileHover={{ scale: 1.04 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                  style={{ zIndex: 0 }}
+                >
+                  {p.image ? (
+                    <img
+                      src={p.image}
+                      alt={p.title}
+                      className="w-full h-full object-cover opacity-95 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full grid place-items-center text-emerald-200 font-semibold tracking-wide">
+                      {p.title}
+                    </div>
+                  )}
+
+                  {/* overlay + título */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 grid place-items-center">
+                    <div className="text-emerald-100 font-semibold tracking-wide drop-shadow">
+                      {p.title}
+                    </div>
+                  </div>
+                </motion.div>
 
                 <div className="p-5">
                   <p className="text-emerald-100/90">{p.desc}</p>
 
                   <div className="flex gap-2 mt-3 flex-wrap">
                     {p.tags.map((t) => (
-                      <span
-                        key={t}
-                        className="text-xs px-2 py-1 rounded-full border border-emerald-900 bg-emerald-950/40"
-                      >
+                      <span key={t} className="text-xs px-2 py-1 rounded-full border border-emerald-900 bg-emerald-950/40">
                         {t}
                       </span>
                     ))}
                   </div>
 
-                  {/* ✅ Botones Repo + Demo */}
+                  {/* ✅ Botones Repo + Demo para TODOS */}
                   <div className="mt-4 flex gap-2">
                     {p.link && (
                       <a
@@ -253,6 +244,11 @@ export default function App() {
             </Card>
           ))}
         </div>
+
+        {/* Tip rápido (opcional): si quieres, quita esto */}
+        <p className="mt-6 text-emerald-200/70 text-sm">
+          *Solo reemplaza los URLs de YouTube en <code className="text-emerald-200">projects</code> para actualizar las demos.
+        </p>
       </Shell>
 
       {/* Servicios */}
@@ -265,9 +261,7 @@ export default function App() {
                 <div className="w-10 h-10 grid place-items-center rounded-xl bg-emerald-900/40 border border-emerald-800 text-emerald-200">
                   <s.icon className="w-5 h-5" />
                 </div>
-                <h3 className="mt-3 font-semibold text-emerald-100">
-                  {s.title}
-                </h3>
+                <h3 className="mt-3 font-semibold text-emerald-100">{s.title}</h3>
                 <p className="text-emerald-200/80 mt-1">{s.desc}</p>
               </CardContent>
             </Card>
@@ -280,20 +274,16 @@ export default function App() {
         <SectionTitle>Contacto</SectionTitle>
 
         <div className="grid gap-6 md:grid-cols-2">
-          {/* Izquierda: Formulario */}
           <Card className="bg-zinc-950/40 border-emerald-700/20">
             <CardContent className="p-6">
               <form
                 className="space-y-4"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  // TODO: manejar envío (email service / endpoint)
                 }}
               >
                 <div>
-                  <label htmlFor="name" className="sr-only">
-                    Nombre
-                  </label>
+                  <label htmlFor="name" className="sr-only">Nombre</label>
                   <input
                     id="name"
                     type="text"
@@ -303,9 +293,7 @@ export default function App() {
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="sr-only">
-                    Correo
-                  </label>
+                  <label htmlFor="email" className="sr-only">Correo</label>
                   <input
                     id="email"
                     type="email"
@@ -315,9 +303,7 @@ export default function App() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="sr-only">
-                    ¿Cómo puedo ayudarte?
-                  </label>
+                  <label htmlFor="message" className="sr-only">¿Cómo puedo ayudarte?</label>
                   <textarea
                     id="message"
                     rows={6}
@@ -336,7 +322,6 @@ export default function App() {
             </CardContent>
           </Card>
 
-          {/* Derecha: Panel info */}
           <Card className="bg-zinc-950/40 border-emerald-700/20">
             <CardContent className="p-6">
               <h3 className="text-xl font-bold text-zinc-100 mb-4">¿Hablamos?</h3>
@@ -378,12 +363,10 @@ export default function App() {
       </Shell>
 
       <footer className="border-t border-emerald-900/40 py-6 text-sm text-emerald-200/80">
-        <div className="mx-auto w-[min(1150px,92%)]">
-          © {year} Leonardo Rosales — Lima 💚
-        </div>
+        <div className="mx-auto w-[min(1150px,92%)]">© {year} Leonardo Rosales — Lima 💚</div>
       </footer>
 
-      {/* ✅ MODAL BONITO - DEMO */}
+      {/* ✅ MODAL BONITO - DEMO (sirve para los 3) */}
       {openDemo && (
         <motion.div
           className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
@@ -391,10 +374,7 @@ export default function App() {
           animate={{ opacity: 1 }}
         >
           {/* overlay */}
-          <div
-            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
-            onClick={closeVideo}
-          />
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={closeVideo} />
 
           {/* modal */}
           <motion.div
@@ -408,9 +388,7 @@ export default function App() {
             <div className="flex items-center justify-between px-5 py-4 border-b border-emerald-900/40">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_18px_rgba(16,185,129,.8)]" />
-                <h3 className="font-semibold text-emerald-100">
-                  {demoTitle} — Demo
-                </h3>
+                <h3 className="font-semibold text-emerald-100">{demoTitle} — Demo</h3>
               </div>
 
               <button
@@ -437,7 +415,6 @@ export default function App() {
                 )}
               </div>
 
-              {/* footer actions */}
               <div className="mt-4 flex justify-end gap-2">
                 <button
                   onClick={closeVideo}
