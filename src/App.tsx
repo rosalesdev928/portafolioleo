@@ -245,10 +245,7 @@ export default function App() {
           ))}
         </div>
 
-        {/* Tip rápido (opcional): si quieres, quita esto */}
-        <p className="mt-6 text-emerald-200/70 text-sm">
-          *Solo reemplaza los URLs de YouTube en <code className="text-emerald-200">projects</code> para actualizar las demos.
-        </p>
+       
       </Shell>
 
       {/* Servicios */}
