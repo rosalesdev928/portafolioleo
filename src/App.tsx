@@ -17,9 +17,9 @@ type Project = {
   title: string;
   desc: string;
   tags: string[];
-  link?: string;     // repo
-  demo?: string;     // youtube embed
-  image?: string;    // ruta imagen (screenshot)
+  link?: string; // repo
+  demo?: string; // youtube embed
+  image?: string; // ruta imagen (screenshot)
 };
 
 const projects: Project[] = [
@@ -29,23 +29,23 @@ const projects: Project[] = [
     tags: ["Node", "Express", "MySQL"],
     link: "https://github.com/rosalesdev928/sistema-farmacia",
     demo: "https://www.youtube.com/embed/-G3Ar0n8VOk",
-    image: "/fotos/DEMOSISTEMAFARMACIA.png", // 👈 pon tu screenshot aquí
+    image: "/fotos/DEMOSISTEMAFARMACIA.png",
   },
   {
     title: "Sistema de Calificaciones de estudiantes y materias",
     desc: "Gestión de calificaciones web, estudiantes y materias.",
     tags: ["PHP", "MySQL", "Bootstrap"],
-    link: "https://github.com/rosalesdev928/resultados-estudiantes", // 👈 cambia si tienes repo
-    demo: "https://www.youtube.com/embed/BJ4aX83eKvY",     // 👈 luego cambias solo el ID
-    image: "/fotos/CALIFICACIONES.png",                           // 👈 screenshot
+    link: "https://github.com/rosalesdev928/resultados-estudiantes",
+    demo: "https://www.youtube.com/embed/BJ4aX83eKvY",
+    image: "/fotos/CALIFICACIONES.png",
   },
   {
     title: "Ey-Fit-Pack: CLIENTE-SERVIDOR",
     desc: "Aplicación fullstack, Minimal API, CRUD, Swagger, CORS",
     tags: [".NET 8", "EF Core", "React", "Vite", "CI/CD"],
-    link: "https://github.com/rosalesdev928/ey-fit-pack", // 👈 cambia si tienes repo
-    demo: "https://www.youtube.com/embed/CI2ry7RA2jE",  // 👈 luego cambias solo el ID
-    image: "/fotos/APIPRO.png",                              // 👈 screenshot
+    link: "https://github.com/rosalesdev928/ey-fit-pack",
+    demo: "https://www.youtube.com/embed/CI2ry7RA2jE",
+    image: "/fotos/APIPRO.png",
   },
 ];
 
@@ -68,7 +68,7 @@ function Shell({ children, id }: { children: React.ReactNode; id?: string }) {
 
 export default function App() {
   const { scrollY } = useScroll();
-  useTransform(scrollY, [0, 400], [0, 40]); // (ok si no lo usas, no afecta)
+  useTransform(scrollY, [0, 400], [0, 40]);
   const year = useMemo(() => new Date().getFullYear(), []);
 
   // Preloader
@@ -92,7 +92,6 @@ export default function App() {
 
   const closeVideo = () => {
     setOpenDemo(false);
-    // corta el video al cerrar
     setTimeout(() => setDemoUrl(null), 200);
   };
 
@@ -106,6 +105,56 @@ export default function App() {
     return () => window.removeEventListener("keydown", onKeyDown);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openDemo]);
+
+  // =========================
+  // ✅ CONTACTO (WhatsApp + validaciones)
+  // =========================
+  const [contactForm, setContactForm] = useState({ name: "", email: "", message: "" });
+  const [contactStatus, setContactStatus] = useState<{ type: "" | "success" | "error"; text: string }>({
+    type: "",
+    text: "",
+  });
+
+  // Tu número en formato internacional (Perú 51 + celular, sin +)
+  const WHATSAPP_NUMBER = "51933406222";
+
+  const validarEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setContactForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const name = contactForm.name.trim();
+    const email = contactForm.email.trim();
+    const message = contactForm.message.trim();
+
+    if (!name || !email || !message) {
+      setContactStatus({ type: "error", text: "Completa los 3 campos antes de enviar." });
+      return;
+    }
+
+    if (!validarEmail(email)) {
+      setContactStatus({ type: "error", text: "Correo inválido. Ejemplo: nombre@gmail.com" });
+      return;
+    }
+
+    const texto = `Hola Leonardo, soy ${name}.
+Email: ${email}
+Mensaje: ${message}`;
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
+
+    setContactStatus({ type: "success", text: "✅ Se envió exitosamente. Abriendo WhatsApp..." });
+    setContactForm({ name: "", email: "", message: "" });
+
+    window.open(url, "_blank");
+
+    setTimeout(() => setContactStatus({ type: "", text: "" }), 4000);
+  };
 
   return (
     <div className="min-h-screen text-emerald-50 bg-[radial-gradient(1000px_700px_at_80%_-10%,#0f261e_0%,transparent_60%),#0a0f0e]">
@@ -150,8 +199,8 @@ export default function App() {
             <CardContent>
               <p>
                 Soy desarrollador junior full-stack con base en Lima. Me gusta construir aplicaciones claras, rápidas y seguras.
-                Disfruto trabajar con <strong>JavaScript/Node</strong> y bases de datos <strong>MySQL</strong>. También tengo experiencia
-                llevando proyectos end-to-end: desde el modelado de datos, APIs y autenticación hasta el despliegue.
+                Disfruto trabajar con <strong>JavaScript/Node</strong> y bases de datos <strong>MySQL</strong>. También tengo
+                experiencia llevando proyectos end-to-end: desde el modelado de datos, APIs y autenticación hasta el despliegue.
               </p>
               <p className="text-emerald-200/80 mt-3">Actualmente busco oportunidades donde aportar valor real.</p>
             </CardContent>
@@ -178,31 +227,25 @@ export default function App() {
           {projects.map((p) => (
             <Card key={p.title} className="overflow-hidden">
               <CardContent className="p-0">
-               {/* ✅ Imagen con hover (se agranda y “sale”) */}
-<motion.div
-  className="h-44 relative overflow-hidden bg-gradient-to-br from-emerald-950 to-emerald-900"
-  whileHover={{ scale: 1.04 }}
-  transition={{ type: "spring", stiffness: 260, damping: 18 }}
->
-  {p.image ? (
-    <img
-      src={p.image}
-      alt={p.title}
-      className="w-full h-full object-cover opacity-95"
-    />
-  ) : (
-    <div className="w-full h-full grid place-items-center text-emerald-200 font-semibold tracking-wide">
-      {p.title}
-    </div>
-  )}
-</motion.div>
+                {/* ✅ Imagen con hover */}
+                <motion.div
+                  className="h-44 relative overflow-hidden bg-gradient-to-br from-emerald-950 to-emerald-900"
+                  whileHover={{ scale: 1.04 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 18 }}
+                >
+                  {p.image ? (
+                    <img src={p.image} alt={p.title} className="w-full h-full object-cover opacity-95" />
+                  ) : (
+                    <div className="w-full h-full grid place-items-center text-emerald-200 font-semibold tracking-wide">
+                      {p.title}
+                    </div>
+                  )}
+                </motion.div>
 
-               <div className="p-5">
-  <h3 className="text-emerald-100 font-semibold text-lg mb-2">
-    {p.title}
-  </h3>
+                <div className="p-5">
+                  <h3 className="text-emerald-100 font-semibold text-lg mb-2">{p.title}</h3>
+                  <p className="text-emerald-100/90">{p.desc}</p>
 
-  <p className="text-emerald-100/90">{p.desc}</p>
                   <div className="flex gap-2 mt-3 flex-wrap">
                     {p.tags.map((t) => (
                       <span key={t} className="text-xs px-2 py-1 rounded-full border border-emerald-900 bg-emerald-950/40">
@@ -211,7 +254,6 @@ export default function App() {
                     ))}
                   </div>
 
-                  {/* ✅ Botones Repo + Demo para TODOS */}
                   <div className="mt-4 flex gap-2">
                     {p.link && (
                       <a
@@ -238,8 +280,6 @@ export default function App() {
             </Card>
           ))}
         </div>
-
-       
       </Shell>
 
       {/* Servicios */}
@@ -267,38 +307,61 @@ export default function App() {
         <div className="grid gap-6 md:grid-cols-2">
           <Card className="bg-zinc-950/40 border-emerald-700/20">
             <CardContent className="p-6">
-              <form
-                className="space-y-4"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                }}
-              >
+              <form className="space-y-4" onSubmit={handleContactSubmit}>
+                {/* ✅ ALERTA (error/éxito) */}
+                {contactStatus.text && (
+                  <div
+                    className={`rounded-xl border px-4 py-3 text-sm ${
+                      contactStatus.type === "success"
+                        ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-200"
+                        : "border-red-500/40 bg-red-500/10 text-red-200"
+                    }`}
+                  >
+                    {contactStatus.text}
+                  </div>
+                )}
+
                 <div>
-                  <label htmlFor="name" className="sr-only">Nombre</label>
+                  <label htmlFor="name" className="sr-only">
+                    Nombre
+                  </label>
                   <input
                     id="name"
+                    name="name"
                     type="text"
                     placeholder="Nombre"
+                    value={contactForm.name}
+                    onChange={handleContactChange}
                     className="w-full rounded-xl bg-zinc-900/70 border border-emerald-700/20 px-4 py-3 text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-600/60"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="sr-only">Correo</label>
+                  <label htmlFor="email" className="sr-only">
+                    Correo
+                  </label>
                   <input
                     id="email"
+                    name="email"
                     type="email"
                     placeholder="Correo"
+                    value={contactForm.email}
+                    onChange={handleContactChange}
                     className="w-full rounded-xl bg-zinc-900/70 border border-emerald-700/20 px-4 py-3 text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-600/60"
                   />
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="sr-only">¿Cómo puedo ayudarte?</label>
+                  <label htmlFor="message" className="sr-only">
+                    ¿Cómo puedo ayudarte?
+                  </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={6}
                     placeholder="¿Cómo puedo ayudarte?"
+                    value={contactForm.message}
+                    onChange={handleContactChange}
                     className="w-full rounded-xl bg-zinc-900/70 border border-emerald-700/20 px-4 py-3 text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-emerald-600/60 resize-none"
                   />
                 </div>
@@ -344,8 +407,7 @@ export default function App() {
               </ul>
 
               <p className="mt-6 text-zinc-400 leading-relaxed font-semibold">
-                También puedo ayudarte a publicar tu sitio en{" "}
-                <span className="font-bold text-zinc-200">GitHub Pages</span> o{" "}
+                También puedo ayudarte a publicar tu sitio en <span className="font-bold text-zinc-200">GitHub Pages</span> o{" "}
                 <span className="font-bold text-zinc-200">Vercel</span>.
               </p>
             </CardContent>
@@ -357,17 +419,15 @@ export default function App() {
         <div className="mx-auto w-[min(1150px,92%)]">© {year} Leonardo Rosales — Lima 💚</div>
       </footer>
 
-      {/* ✅ MODAL BONITO - DEMO (sirve para los 3) */}
+      {/* ✅ MODAL BONITO - DEMO */}
       {openDemo && (
         <motion.div
           className="fixed inset-0 z-[9999] flex items-center justify-center px-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          {/* overlay */}
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={closeVideo} />
 
-          {/* modal */}
           <motion.div
             className="relative w-full max-w-4xl rounded-2xl border border-emerald-700/30 bg-gradient-to-b from-emerald-950 to-[#08120f] shadow-[0_20px_60px_rgba(0,0,0,.6)] overflow-hidden"
             initial={{ y: 20, scale: 0.98, opacity: 0 }}
@@ -375,7 +435,6 @@ export default function App() {
             transition={{ type: "spring", stiffness: 260, damping: 22 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-emerald-900/40">
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_18px_rgba(16,185,129,.8)]" />
@@ -391,7 +450,6 @@ export default function App() {
               </button>
             </div>
 
-            {/* video */}
             <div className="p-4">
               <div className="aspect-video rounded-xl overflow-hidden border border-emerald-800/30 bg-black">
                 {demoUrl && (
