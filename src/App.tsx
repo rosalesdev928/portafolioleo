@@ -32,10 +32,10 @@ const projects: Project[] = [
     image: "/fotos/DEMOSISTEMAFARMACIA.png", // 👈 pon tu screenshot aquí
   },
   {
-    title: "Gestión de Clientes",
-    desc: "CRUD con filtros, paginación y exportaciones.",
-    tags: ["Node", "EJS", "Bootstrap"],
-    link: "https://github.com/rosalesdev928/gestion-clientes", // 👈 cambia si tienes repo
+    title: "Sistema de Calificaciones de estudiantes y materias",
+    desc: "Gestión de calificaciones web, estudiantes y materias.",
+    tags: ["PHP", "MySQL", "Bootstrap"],
+    link: "https://github.com/rosalesdev928/resultados-estudiantes", // 👈 cambia si tienes repo
     demo: "https://www.youtube.com/embed/PEGAR_ID_AQUI_2",     // 👈 luego cambias solo el ID
     image: "/projects/clientes.png",                           // 👈 screenshot
   },
