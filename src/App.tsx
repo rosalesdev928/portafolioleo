@@ -36,7 +36,7 @@ const projects: Project[] = [
     desc: "Gestión de calificaciones web, estudiantes y materias.",
     tags: ["PHP", "MySQL", "Bootstrap"],
     link: "https://github.com/rosalesdev928/resultados-estudiantes", // 👈 cambia si tienes repo
-    demo: "https://www.youtube.com/embed/PEGAR_ID_AQUI_2",     // 👈 luego cambias solo el ID
+    demo: "https://youtu.be/BJ4aX83eKvY",     // 👈 luego cambias solo el ID
     image: "/fotos/CALIFICACIONES.png",                           // 👈 screenshot
   },
   {
