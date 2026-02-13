@@ -40,7 +40,7 @@ const projects: Project[] = [
     image: "/fotos/CALIFICACIONES.png",                           // 👈 screenshot
   },
   {
-    title: "Ey-Fit-Pack",
+    title: "Ey-Fit-Pack: CLIENTE-SERVIDOR",
     desc: "Aplicación fullstack, Minimal API, CRUD, Swagger, CORS",
     tags: [".NET 8", "EF Core", "React", "Vite", "CI/CD"],
     link: "https://github.com/rosalesdev928/ey-fit-pack", // 👈 cambia si tienes repo
