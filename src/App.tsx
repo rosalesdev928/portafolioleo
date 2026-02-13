@@ -40,10 +40,10 @@ const projects: Project[] = [
     image: "/fotos/CALIFICACIONES.png",                           // 👈 screenshot
   },
   {
-    title: "API de Productos",
-    desc: "API JSON con auth JWT y roles.",
-    tags: ["Express", "JWT", "Pruebas"],
-    link: "https://github.com/rosalesdev928/api-productos", // 👈 cambia si tienes repo
+    title: "Ey-Fit-Pack",
+    desc: "Minimal API, CRUD, Swagger, CORS",
+    tags: [".NET 8", "EF Core", "React", "Vite", "CI/CD"],
+    link: "https://github.com/rosalesdev928/ey-fit-pack", // 👈 cambia si tienes repo
     demo: "https://www.youtube.com/embed/PEGAR_ID_AQUI_3",  // 👈 luego cambias solo el ID
     image: "/projects/api.png",                              // 👈 screenshot
   },
