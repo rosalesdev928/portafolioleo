@@ -44,7 +44,7 @@ const projects: Project[] = [
     desc: "Aplicación fullstack, Minimal API, CRUD, Swagger, CORS",
     tags: [".NET 8", "EF Core", "React", "Vite", "CI/CD"],
     link: "https://github.com/rosalesdev928/ey-fit-pack", // 👈 cambia si tienes repo
-    demo: "https://www.youtube.com/embed/PEGAR_ID_AQUI_3",  // 👈 luego cambias solo el ID
+    demo: "https://www.youtube.com/embed/CI2ry7RA2jE",  // 👈 luego cambias solo el ID
     image: "/fotos/APIPRO.png",                              // 👈 screenshot
   },
 ];
