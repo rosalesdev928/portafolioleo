@@ -37,7 +37,7 @@ const projects: Project[] = [
     tags: ["PHP", "MySQL", "Bootstrap"],
     link: "https://github.com/rosalesdev928/resultados-estudiantes", // 👈 cambia si tienes repo
     demo: "https://www.youtube.com/embed/PEGAR_ID_AQUI_2",     // 👈 luego cambias solo el ID
-    image: "/projects/clientes.png",                           // 👈 screenshot
+    image: "/fotos/CALIFICACIONES.png",                           // 👈 screenshot
   },
   {
     title: "API de Productos",
