@@ -41,7 +41,7 @@ const projects: Project[] = [
   },
   {
     title: "Ey-Fit-Pack",
-    desc: "Minimal API, CRUD, Swagger, CORS",
+    desc: "Aplicación fullstack, Minimal API, CRUD, Swagger, CORS",
     tags: [".NET 8", "EF Core", "React", "Vite", "CI/CD"],
     link: "https://github.com/rosalesdev928/ey-fit-pack", // 👈 cambia si tienes repo
     demo: "https://www.youtube.com/embed/PEGAR_ID_AQUI_3",  // 👈 luego cambias solo el ID
