@@ -28,6 +28,7 @@ const projects: Project[] = [
     desc: "Farmacia con delivery: catálogo de productos, pedidos, subida de recetas médicas y notificaciones por correo. Roles de admin, farmacéutico, delivery y cliente.",
     tags: ["Java 21", "Spring Boot", "Spring Security", "JWT", "MySQL"],
     link: "https://github.com/rosalesdev928/boticlic",
+    image: "/fotos/BOTICLIC.jpeg",
   },
   {
     title: "Sistema de Farmacia",
