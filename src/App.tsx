@@ -24,6 +24,12 @@ type Project = {
 
 const projects: Project[] = [
   {
+    title: "BotiClic — Farmacia Online",
+    desc: "Farmacia con delivery: catálogo de productos, pedidos, subida de recetas médicas y notificaciones por correo. Roles de admin, farmacéutico, delivery y cliente.",
+    tags: ["Java 21", "Spring Boot", "Spring Security", "JWT", "MySQL"],
+    link: "https://github.com/rosalesdev928/boticlic",
+  },
+  {
     title: "Sistema de Farmacia",
     desc: "Inventario, ventas y usuarios. Node.js + MySQL.",
     tags: ["Node", "Express", "MySQL"],
