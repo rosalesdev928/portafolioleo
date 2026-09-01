@@ -24,10 +24,18 @@ type Project = {
 
 const projects: Project[] = [
   {
+    title: "Radar",
+    desc: "Mapa en vivo de emergencias reales de Lima Metropolitana con avisos por cercanía, mapa en tiempo real y hilo ciudadano por incidente.",
+    tags: ["TypeScript", "React", "Leaflet", "Vite", "Vercel"],
+    link: "https://github.com/rosalesdev928/radar",
+    demo: "https://radar-lovat-ten.vercel.app/",
+  },
+  {
     title: "BotiClic — Farmacia Online",
     desc: "Farmacia con delivery: catálogo de productos, pedidos, subida de recetas médicas y notificaciones por correo. Roles de admin, farmacéutico, delivery y cliente.",
     tags: ["Java 21", "Spring Boot", "Spring Security", "JWT", "MySQL"],
     link: "https://github.com/rosalesdev928/boticlic",
+    image: "/fotos/BOTICLIC.jpeg",
   },
   {
     title: "Sistema de Farmacia",
