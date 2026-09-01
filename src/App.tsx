@@ -20,6 +20,7 @@ type Project = {
   link?: string; // repo
   demo?: string; // youtube embed
   image?: string; // ruta imagen (screenshot)
+  imageClassName?: string;
 };
 
 const projects: Project[] = [
@@ -29,6 +30,8 @@ const projects: Project[] = [
     tags: ["TypeScript", "React", "Leaflet", "Vite", "Vercel"],
     link: "https://github.com/rosalesdev928/radar",
     demo: "https://radar-lovat-ten.vercel.app/",
+    image: "/fotos/radar.jpeg",
+    imageClassName: "object-contain object-center bg-[#08110f] p-2",
   },
   {
     title: "BotiClic — Farmacia Online",
@@ -248,7 +251,11 @@ Mensaje: ${message}`;
                   transition={{ type: "spring", stiffness: 260, damping: 18 }}
                 >
                   {p.image ? (
-                    <img src={p.image} alt={p.title} className="w-full h-full object-cover opacity-95" />
+                    <img
+                      src={p.image}
+                      alt={p.title}
+                      className={`w-full h-full opacity-95 ${p.imageClassName ?? "object-cover"}`}
+                    />
                   ) : (
                     <div className="w-full h-full grid place-items-center text-emerald-200 font-semibold tracking-wide">
                       {p.title}
