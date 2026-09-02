@@ -99,7 +99,7 @@ export default function Hero() {
 <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-6">
   {/* Descargar CV */}
   <a
-      href="/CV_Jose_Leonardo_Rosales_2026-2.pdf"
+      href="https://www.rosalesdev.com/CV_Jose_Leonardo_Rosales_2026-2.pdf"
       download="CV_Jose_Leonardo_Rosales_2026-2.pdf"
     className="px-8 py-4 rounded-full bg-emerald-500 hover:bg-emerald-400 text-zinc-900 font-bold text-lg shadow-lg 
                transition-transform duration-300 hover:scale-110"
