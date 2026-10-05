@@ -12,6 +12,19 @@ dist
 dist-ssr
 *.local
 
+# Build artifacts and temporary files
+dist.zip
+*.tsbuildinfo
+*.tmp
+*.temp
+
+# Local deployment metadata and credentials
+.vercel/
+.env
+.env.*
+!.env.example
+!.env.template
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
