@@ -74,6 +74,18 @@ export const projects: readonly Project[] = [
     imageAlt: es.projects.items["sistema-farmacia"].imageAlt,
   },
   {
+    id: "vibecode",
+    title: "VibeCode Editor",
+    role: "Full Stack",
+    description: es.projects.items.vibecode.description,
+    technologies: ["Next.js 15", "TypeScript", "Prisma", "MongoDB Atlas", "Auth.js", "Tailwind", "Vitest", "Vercel"],
+    repoUrl: "https://github.com/rosalesdev928/chat-videcoder",
+    liveUrl: "https://chat-videcoder.vercel.app",
+    liveAction: "demo",
+    image: "/fotos/VIBECODE.jpeg",
+    imageAlt: es.projects.items.vibecode.imageAlt,
+  },
+  {
     id: "calificaciones",
     title: "Sistema de Calificaciones de estudiantes y materias",
     description: es.projects.items.calificaciones.description,
