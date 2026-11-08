@@ -49,11 +49,12 @@ async function run() {
       assert.ok(contrast(palette[foreground], palette[background]) >= 4.5, foreground + " must meet AA contrast on " + background);
     }
   }
-  const ids = ["checabien", "radar", "boticlic", "sistema-farmacia", "vibecode", "calificaciones", "ey-fit-pack"];
+  const ids = ["checabien", "radar", "boticlic", "vibecode", "sentirse-bien", "calificaciones", "gym-valencia", "mini-kyc", "sistema-farmacia", "ey-fit-pack"];
   assert.deepEqual(projects.map((project) => project.id), ids);
   assert.deepEqual(projects.filter((project) => project.featured).map((project) => project.id), ids.slice(0, 3));
-  assert.equal(projects[4].repoUrl, "https://github.com/rosalesdev928/chat-videcoder");
-  assert.equal(projects[4].liveUrl, "https://chat-videcoder.vercel.app");
+  assert.equal(projects[3].repoUrl, "https://github.com/rosalesdev928/chat-videcoder");
+  assert.equal(projects[3].liveUrl, "https://chat-videcoder.vercel.app");
+  assert.equal(projects.find((project) => project.id === "gym-valencia").repoUrl, undefined, "gym-valencia is a private repository");
   assert.equal(projects[0].repoUrl, undefined);
   assert.equal(projects[0].liveUrl, "https://checabien.com/regionales-2026?departamento=15&provincia=1501&ubicacion=ejemplo");
   assert.equal(projects[1].repoUrl, "https://github.com/rosalesdev928/radar");
@@ -105,7 +106,7 @@ async function run() {
 
   for (const theme of ["dark", "light"]) for (const [language, t] of [["es", es], ["en", en]]) {
     const markup = renderToStaticMarkup(React.createElement(PreferencesContext.Provider, { value: { theme, language, t, toggleTheme() {}, setLanguage() {} } }, React.createElement(App)));
-    assert.equal((markup.match(/<article\b/g) ?? []).length, 7);
+    assert.equal((markup.match(/<article\b/g) ?? []).length, 10);
     assert.equal((markup.match(new RegExp(">" + t.projects.featured + "<", "g")) ?? []).length, 3);
     assert.ok(markup.includes(t.hero.headline));
     assert.ok(markup.includes(t.about.description.replace(/'/g, "&#x27;")));

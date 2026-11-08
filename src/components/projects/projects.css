@@ -23,11 +23,11 @@
 .project-description { margin-top: .8rem; color: var(--text-secondary); font-size: .875rem; line-height: 1.65; }
 .project-extra { margin-top: .6rem; }
 .project-meta { margin-top: .75rem; font-size: .7rem; line-height: 1.6; color: var(--text-secondary); }
-.project-stack { margin-top: 1.2rem; }
+.project-stack { margin-top: auto; padding-top: 1.2rem; }
 .project-stack > p { font-size: .65rem; font-weight: 650; letter-spacing: .09em; text-transform: uppercase; color: var(--text-secondary); margin-bottom: .6rem; }
 .project-stack ul { display: flex; flex-wrap: wrap; gap: .4rem; }
 .project-stack li { max-width: 100%; overflow-wrap: anywhere; border: 1px solid var(--border); border-radius: .5rem; background: var(--badge-bg); color: var(--badge-text); padding: .25rem .6rem; font-size: .7rem; font-weight: 500; line-height: 1.5; transition: border-color .2s, background-color .2s; }
-.project-card-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: auto; padding-top: 1.5rem; }
+.project-card-actions { display: flex; flex-wrap: wrap; gap: .5rem; padding-top: 1.5rem; }
 .project-card-actions .action-primary { min-height: 44px; font-size: .8rem; padding-inline: .85rem; }
 .carousel-pagination { display: flex; justify-content: center; align-items: center; margin-top: 1.25rem; }
 .carousel-pagination button { display: grid; place-items: center; width: 44px; height: 44px; border-radius: .6rem; }
