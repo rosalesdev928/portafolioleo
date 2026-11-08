@@ -20,8 +20,86 @@ const Panel = require("../src/components/assistant/AssistantPanel.tsx").default;
 const Message = require("../src/components/assistant/AssistantMessage.tsx").default;
 const Assistant = require("../src/components/assistant/PortfolioAssistant.tsx").default;
 
+// Questions the assistant must answer, in both languages, from site data only.
+const knowledgeQuestions = {
+  services: { es: "¿Qué servicios ofreces?", en: "What services do you offer?" },
+  backend: { es: "¿Haces backend?", en: "Do you do backend?" },
+  aws: { es: "¿Trabajas con AWS?", en: "Do you work with AWS?" },
+  contact: { es: "¿Cómo te contacto?", en: "How do I contact you?" },
+  linkedin: { es: "¿Tienes LinkedIn?", en: "Do you have LinkedIn?" },
+  cv: { es: "¿Dónde descargo tu CV?", en: "Where can I download your CV?" },
+  clients: { es: "¿Qué proyectos con clientes reales tienes?", en: "What real client projects do you have?" },
+  "sentirse-bien": { es: "¿Qué es Sentirse Bien?", en: "What is Sentirse Bien?" },
+  "mini-kyc": { es: "¿Qué es Mini KYC?", en: "What is Mini KYC?" },
+  profile: { es: "¿Trabajas remoto?", en: "Do you work remotely?" },
+  pricing: { es: "¿Cuánto cobras por un proyecto?", en: "What are your rates?" },
+  projects: { es: "¿Qué proyectos tienes?", en: "What projects do you have?" },
+  process: { es: "¿Cómo trabajas?", en: "How do you work?" },
+};
+const unknownQuestions = { es: ["¿Cuál es tu color favorito?", "¿Sabes Kubernetes?"], en: ["What is your favorite color?", "Do you know Kubernetes?"] };
+
+function verifyKnowledge(language, t) {
+  const answerTo = (topic) => data.getAssistantAnswer(data.resolveAssistantTopic(knowledgeQuestions[topic][language], t), t, language);
+  for (const [topic, questions] of Object.entries(knowledgeQuestions)) assert.equal(data.resolveAssistantTopic(questions[language], t), topic, questions[language]);
+  for (const question of unknownQuestions[language]) {
+    assert.equal(data.resolveAssistantTopic(question, t), null, question);
+    assert.deepEqual(data.getAssistantAnswer(null, t, language).paragraphs, [t.assistant.fallback]);
+  }
+  const hrefs = (answer) => answer.actions.map((action) => action.href);
+  const cv = profile.cv[language];
+
+  const offered = answerTo("services");
+  assert.deepEqual(offered.services.map((service) => service.id), ["web", "backend", "integrations", "deployment"]);
+  assert.ok(offered.services.every((service) => service.points.length === 3 && service.technologies.length === 3));
+  t.services.steps.forEach((step, index) => assert.ok(offered.steps[index].includes(step.title) && offered.steps[index].includes(step.description)));
+  assert.equal(answerTo("process").steps.length, 3);
+
+  const backend = answerTo("backend");
+  assert.deepEqual(backend.services.map((service) => service.id), ["backend"]);
+  assert.equal(backend.paragraphs[0], t.assistant.answers.backend);
+
+  const aws = answerTo("aws");
+  assert.deepEqual(aws.services.map((service) => service.id), ["deployment"]);
+  assert.deepEqual(aws.projects.map((project) => project.id), ["checabien"]);
+  for (const technology of ["AWS", "Amazon EC2", "Amazon RDS", "Amazon S3"]) assert.ok(projects[0].technologies.includes(technology), "The AWS answer must stay true to ChecaBien's stack");
+
+  const contact = answerTo("contact");
+  for (const href of ["#contacto", `mailto:${profile.email}`, profile.linkedinUrl, profile.githubUrl, cv.url]) assert.ok(hrefs(contact).includes(href), href);
+  assert.ok(contact.paragraphs[0].includes(profile.email) && contact.paragraphs[0].includes(profile.githubHandle));
+  assert.deepEqual(hrefs(answerTo("linkedin")), [profile.linkedinUrl]);
+
+  const download = answerTo("cv").actions[0];
+  assert.equal(download.href, cv.url, "The CV must match the active language");
+  assert.equal(download.download, cv.fileName);
+
+  const clients = answerTo("clients");
+  assert.deepEqual(clients.projects.map((project) => project.id), ["sentirse-bien", "gym-valencia"]);
+  assert.ok(clients.projects.every((project) => project.role === t.projects.items[project.id].role && /·/.test(project.role)));
+  assert.deepEqual(projects.filter((project) => /·/.test(t.projects.items[project.id].role)).map((project) => project.id), clients.projects.map((project) => project.id), "Real client list must match the cards");
+
+  for (const id of ["sentirse-bien", "mini-kyc"]) {
+    const [summary] = answerTo(id).projects;
+    const project = projects.find((entry) => entry.id === id);
+    assert.equal(summary.description, t.projects.items[id].description);
+    assert.ok(summary.actions.some((action) => action.href === project.repoUrl) && summary.actions.some((action) => action.href === project.liveUrl));
+  }
+
+  const all = answerTo("projects").projects;
+  assert.deepEqual(all.map((project) => project.id), projects.map((project) => project.id), "All projects, in site order");
+  assert.equal(all.length, 10);
+  const gym = all.find((project) => project.id === "gym-valencia");
+  assert.ok(!gym.actions.some((action) => action.label === t.projects.repository) && gym.actions.some((action) => action.href === "https://gym-valencia.vercel.app/"), "Gym Valencia has a demo and no repository");
+
+  const remote = answerTo("profile").paragraphs[0];
+  assert.ok(remote === t.assistant.answers.profile && /full-stack/.test(remote) && remote.includes("Lima") && /remot/i.test(remote));
+
+  const pricing = answerTo("pricing");
+  assert.ok(!/\d|[$€£]|S\/|USD|PEN/.test(pricing.paragraphs[0].replace(profile.email, "")), "Pricing answers cannot invent amounts or deadlines");
+  assert.deepEqual(hrefs(pricing), ["#contacto", `mailto:${profile.email}`]);
+}
+
 function verifyAnswers() {
-  const allowedUrls = new Set(["#proyectos", "#contacto", `mailto:${profile.email}`, profile.githubUrl, profile.linkedinUrl]);
+  const allowedUrls = new Set(["#proyectos", "#contacto", `mailto:${profile.email}`, profile.githubUrl, profile.linkedinUrl, profile.cv.es.url, profile.cv.en.url]);
   for (const project of projects) for (const key of ["repoUrl", "liveUrl", "videoUrl", "detailsUrl"]) if (project[key]) allowedUrls.add(project[key]);
   const technologies = new Set(projects.flatMap((project) => project.technologies));
   for (const [language, t] of [["es", es], ["en", en]]) {
@@ -33,11 +111,21 @@ function verifyAnswers() {
       assert.ok(!/assistant-(?:ground-rings|music-notes|wave)/.test(launcher), "The GIF supplies its own notes and visual effects");
       assert.ok(!launcher.includes('role="tooltip"'), "Clickable invitation must retain button semantics");
     }
-    for (const topic of [...data.suggestedQuestions, ...projects.map((project) => project.id), null]) {
-      const answer = data.getAssistantAnswer(topic, t);
+    for (const topic of [...Object.keys(t.assistant.questions), ...projects.map((project) => project.id), null]) {
+      const answer = data.getAssistantAnswer(topic, t, language);
+      assert.ok(!/junior|\bjr\b/i.test(JSON.stringify(answer)), "Profile copy must not say junior");
+      const firstPerson = language === "es" ? /\b(soy|construyo|mantengo|conecto|dejo|me enfoco|creo|por mí)\b/i : /\b(I|I'm|I'll|my|me)\b/;
+      for (const service of answer.services) {
+        const copy = t.services.items[service.id];
+        assert.equal(service.description, t.assistant.serviceDescriptions[service.id] ?? copy.description);
+        assert.deepEqual(service.points, copy.points);
+        assert.ok(!firstPerson.test([service.description, ...service.points].join(" ")), `Third person: ${service.description}`);
+      }
+      for (const summary of answer.projects) assert.ok(!firstPerson.test(`${summary.description} ${summary.extra}`), `Third person: ${summary.title}`);
+      if (topic === "services" || topic === "technologies") assert.ok(!firstPerson.test(answer.paragraphs.join(" ")), `Third person: ${topic}`);
       for (const summary of answer.projects) {
         const project = projects.find((entry) => entry.id === summary.id);
-        assert.equal(summary.description, t.projects.items[project.id].description);
+        assert.equal(summary.description, t.assistant.projectDescriptions[project.id] ?? t.projects.items[project.id].description);
         assert.equal(summary.extra, t.projects.items[project.id].extra);
         for (const technology of summary.technologies) assert.ok(project.technologies.includes(technology));
       }
@@ -49,19 +137,20 @@ function verifyAnswers() {
         for (const link of markup.matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)) assert.ok(link[0].includes('rel="noopener noreferrer"'));
       }
     }
-    const checa = data.getAssistantAnswer("checabien", t).projects[0];
+    const checa = data.getAssistantAnswer("checabien", t, language).projects[0];
     assert.ok(!checa.actions.some((action) => action.label === t.projects.repository));
     assert.ok(checa.actions.some((action) => action.href === projects[0].liveUrl));
-    const boti = data.getAssistantAnswer("boticlic", t).projects[0];
+    const boti = data.getAssistantAnswer("boticlic", t, language).projects[0];
     assert.ok(!boti.actions.some((action) => action.label === t.projects.liveDemo));
-    assert.equal(data.getAssistantAnswer("featured", t).projects.map((project) => project.id).join(","), "checabien,radar,boticlic");
+    assert.equal(data.getAssistantAnswer("featured", t, language).projects.map((project) => project.id).join(","), "checabien,radar,boticlic");
+    verifyKnowledge(language, t);
     assert.equal(data.resolveAssistantTopic(t.assistant.questions.checabien, t), "checabien");
     assert.equal(data.resolveAssistantTopic(t.assistant.questions.contact, t), "contact");
     assert.equal(data.resolveAssistantTopic("NestJS", t), "technologies");
     assert.equal(data.resolveAssistantTopic("Which salary does Leonardo earn?", t), null);
     const markup = renderToStaticMarkup(React.createElement(PreferencesContext.Provider, { value: { theme: "dark", language, t } }, React.createElement(Panel, { turns: [{ id: 1, prompt: { kind: "suggestion", topic: "radar" }, topic: "radar" }], pendingId: 1, onAsk() {}, onClose() {}, onNavigate() {} })));
     assert.ok(markup.includes('role="dialog"') && markup.includes('aria-modal="false"'));
-    assert.ok(markup.includes(t.assistant.welcome) && markup.includes(t.assistant.typing));
+    assert.ok(markup.includes(t.assistant.welcome.replace(/'/g, "&#x27;")) && markup.includes(t.assistant.typing));
     assert.ok(markup.includes(t.assistant.questions.radar));
     assert.ok(markup.includes('aria-label="' + t.assistant.close + '"'));
     assert.equal((markup.match(/class="assistant-question-chips"/g) ?? []).length, 1);

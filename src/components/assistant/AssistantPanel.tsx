@@ -42,7 +42,7 @@ export default function AssistantPanel({ turns, pendingId, onAsk, onClose, onNav
         <p className="assistant-question"><span className="sr-only">{t.assistant.you}: </span>{turn.prompt.kind === "suggestion" ? t.assistant.questions[turn.prompt.topic] : turn.prompt.text}</p>
         {pendingId === turn.id
           ? <div className="assistant-typing" role="status"><span>{t.assistant.typing}</span><span className="assistant-typing-dots" aria-hidden="true"><i /><i /><i /></span></div>
-          : <AssistantMessage answer={getAssistantAnswer(turn.topic, t)} onNavigate={onNavigate} />}
+          : <AssistantMessage answer={getAssistantAnswer(turn.topic, t, language)} onNavigate={onNavigate} />}
       </div>)}
     </div>
     <div className="assistant-suggestions">

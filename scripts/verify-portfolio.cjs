@@ -110,14 +110,24 @@ async function run() {
     assert.equal((markup.match(new RegExp(">" + t.projects.featured + "<", "g")) ?? []).length, 3);
     assert.ok(markup.includes(t.hero.headline));
     assert.ok(markup.includes(t.about.description.replace(/'/g, "&#x27;")));
-    assert.ok(markup.includes(t.services.web.description));
+    for (const service of Object.values(t.services.items)) {
+      assert.equal(service.points.length, 3);
+      assert.ok(markup.includes(service.description) && service.points.every((point) => markup.includes(point)));
+    }
+    assert.equal(t.services.steps.length, 3);
+    assert.ok(markup.includes(t.services.cta.replace(/'/g, "&#x27;")) && markup.includes(t.contact.title) && markup.includes(t.contact.location));
+    assert.ok(Object.values(t.contact.needs).every((need) => markup.includes(">" + need + "<")));
+    assert.ok(t.contact.whatsapp.includes("{need}") && t.contact.whatsappNeed.includes("{need}"), "The selected need must reach the sent message");
+    assert.ok(!("publish" in t.contact), "The GitHub Pages/Vercel sentence was removed from Contact");
     assert.ok(markup.includes(t.contact.message));
     const cvFileName = `CV-Leonardo-Rosales-${language.toUpperCase()}.pdf`;
     const cvLinks = [...markup.matchAll(/<a\b[^>]*\bdownload="([^"]+)"[^>]*>[^<]*<\/a>/g)];
-    assert.equal(cvLinks.length, 1, "The CV download must use the selected language");
-    assert.equal(cvLinks[0][1], cvFileName);
-    assert.ok(cvLinks[0][0].includes(`href="/cv/${cvFileName}"`));
-    assert.ok(cvLinks[0][0].includes(`>${t.hero.cv}</a>`));
+    assert.equal(cvLinks.length, 2, "Hero and Contact CV downloads must use the selected language");
+    for (const cvLink of cvLinks) {
+      assert.equal(cvLink[1], cvFileName);
+      assert.ok(cvLink[0].includes(`href="/cv/${cvFileName}"`));
+      assert.ok(cvLink[0].includes(`>${t.hero.cv}</a>`));
+    }
     const cv = fs.readFileSync(`public/cv/${cvFileName}`);
     assert.equal(cv.subarray(0, 5).toString(), "%PDF-", "Download must point to a real PDF");
     for (const project of projects) assert.ok(markup.includes(t.projects.items[project.id].imageAlt));
