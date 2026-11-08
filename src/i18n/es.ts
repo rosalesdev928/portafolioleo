@@ -1,7 +1,7 @@
 export const es = {
   seo: {
-    title: "Leonardo Rosales | Backend Developer",
-    description: "Portafolio de Leonardo Rosales, desarrollador backend especializado en APIs, bases de datos y soluciones cloud.",
+    title: "Leonardo Rosales | Desarrollador Full-Stack",
+    description: "Portafolio de Leonardo Rosales, desarrollador full-stack especializado en APIs, bases de datos y soluciones cloud.",
   },
   common: {
     contact: "Contáctame", close: "Cerrar", email: "Correo", demo: "Demo",
@@ -12,7 +12,7 @@ export const es = {
   preferences: { language: "Idioma", spanish: "Español", english: "English", light: "Activar tema claro", dark: "Activar tema oscuro" },
   music: { play: "Reproducir música", pause: "Pausar música", unavailable: "Música disponible próximamente", checking: "Comprobando disponibilidad de música", volume: "Volumen de la música" },
   hero: {
-    eyebrow: "INGENIERO DE SISTEMAS · DESARROLLADOR JUNIOR FULL-STACK",
+    eyebrow: "INGENIERO DE SISTEMAS · DESARROLLADOR FULL-STACK",
     greeting: "Hola, soy", headline: "Implemento aplicaciones web prácticas y escalables.",
     description: "Me enfoco en back-end con Node.js/Express y MySQL; en el front creo interfaces rápidas y accesibles.",
     projects: "Ver proyectos", available: "Disponible para oportunidades y proyectos freelance.",
@@ -20,7 +20,7 @@ export const es = {
   },
   about: {
     title: "Sobre mí",
-    description: "Soy desarrollador junior full-stack con base en Lima. Me gusta construir aplicaciones claras, rápidas y seguras. Disfruto trabajar con JavaScript/Node y bases de datos MySQL. También tengo experiencia llevando proyectos end-to-end: desde el modelado de datos, APIs y autenticación hasta el despliegue.",
+    description: "Soy desarrollador full-stack con base en Lima. Me gusta construir aplicaciones claras, rápidas y seguras. Disfruto trabajar con JavaScript/Node y bases de datos MySQL. También tengo experiencia llevando proyectos end-to-end: desde el modelado de datos, APIs y autenticación hasta el despliegue.",
     available: "Actualmente busco oportunidades donde aportar valor real.",
     practices: ["⚙️ 2+ años practicando desarrollo web", "🗄️ CRUDs, auth JWT, subida de archivos", "🚀 Deploy en Vercel/Render y GitHub Pages", "✅ Buenas prácticas: MVC, SOLID básico"],
   },

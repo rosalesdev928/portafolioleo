@@ -1,14 +1,14 @@
 import type { Translations } from "./es";
 
 export const en: Translations = {
-  seo: { title: "Leonardo Rosales | Backend Developer", description: "Portfolio of Leonardo Rosales, backend developer focused on APIs, databases and cloud solutions." },
+  seo: { title: "Leonardo Rosales | Full-Stack Developer", description: "Portfolio of Leonardo Rosales, full-stack developer focused on APIs, databases and cloud solutions." },
   common: { contact: "Contact me", close: "Close", email: "Email", demo: "Demo", newTab: "opens in a new tab", skip: "Skip to content", emailLink: "Email Leonardo Rosales", github: "GitHub profile", linkedin: "LinkedIn profile" },
   nav: { home: "Home", about: "About", projects: "Projects", services: "Services", contact: "Contact", label: "Main navigation", open: "Open menu", close: "Close menu" },
   preferences: { language: "Language", spanish: "Español", english: "English", light: "Switch to light theme", dark: "Switch to dark theme" },
   music: { play: "Play music", pause: "Pause music", unavailable: "Music coming soon", checking: "Checking music availability", volume: "Music volume" },
-  hero: { eyebrow: "SYSTEMS ENGINEER · JUNIOR FULL-STACK DEVELOPER", greeting: "Hi, I'm", headline: "I build practical, scalable web applications.", description: "I focus on back-end development with Node.js/Express and MySQL, and build fast, accessible front-end interfaces.", projects: "View projects", available: "Available for opportunities and freelance projects.", cv: "Download CV", technologies: "Technologies", pauseTechnologies: "Pause technology carousel", resumeTechnologies: "Resume technology carousel" },
+  hero: { eyebrow: "SYSTEMS ENGINEER · FULL-STACK DEVELOPER", greeting: "Hi, I'm", headline: "I build practical, scalable web applications.", description: "I focus on back-end development with Node.js/Express and MySQL, and build fast, accessible front-end interfaces.", projects: "View projects", available: "Available for opportunities and freelance projects.", cv: "Download CV", technologies: "Technologies", pauseTechnologies: "Pause technology carousel", resumeTechnologies: "Resume technology carousel" },
   about: {
-    title: "About me", description: "I'm a junior full-stack developer based in Lima. I enjoy building clear, fast and secure applications, working with JavaScript/Node and MySQL databases. I also have experience taking projects end-to-end: from data modeling, APIs and authentication to deployment.", available: "I'm currently looking for opportunities to contribute real value.",
+    title: "About me", description: "I'm a full-stack developer based in Lima. I enjoy building clear, fast and secure applications, working with JavaScript/Node and MySQL databases. I also have experience taking projects end-to-end: from data modeling, APIs and authentication to deployment.", available: "I'm currently looking for opportunities to contribute real value.",
     practices: ["⚙️ 2+ years practicing web development", "🗄️ CRUDs, JWT authentication, file uploads", "🚀 Deployment on Vercel/Render and GitHub Pages", "✅ Good practices: MVC, basic SOLID"],
   },
   projects: {
